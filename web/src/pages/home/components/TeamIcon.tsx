@@ -10,7 +10,7 @@ const TeamIcon: React.FC<TeamIconProps> = ({ team }) => {
     
     <div className="flex flex-col justify-center items-center w-20">
       <Avatar className="size-16 rounded-none">
-        <AvatarImage className="aspect-auto w-fit h-fit my-auto" src={team.logo} />
+        <AvatarImage className="aspect-auto w-fit h-fit my-auto" src={team.logo} alt={team.name} />
         <AvatarFallback className="rounded-full">{team.shortName}</AvatarFallback>
       </Avatar>
       <span className="">{team.rank && "#" + team.rank}</span>

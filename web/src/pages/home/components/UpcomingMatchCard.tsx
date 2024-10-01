@@ -40,19 +40,31 @@ const UpcomingMatchCard : React.FC<UpcomingMatchCardProps> = ({ match }) => {
   let awayTeam = match.awayTeam;
   const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{dayNames[match.date.getDay()] + ", " + match.date.getMonth() + "/" + match.date.getDate() + "/" + match.date.getFullYear()}</CardTitle>
+    <Card className="lg:h-48 flex flex-col justify-between">
+      <CardHeader className="py-2">
+        <CardTitle className="text-sm text-end">{dayNames[match.date.getDay()] + ", " + match.date.getMonth() + "/" + match.date.getDate() + "/" + match.date.getFullYear()}</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-row justify-around items-start">
-        <TeamIcon team={awayTeam} />
-        <span>vs.</span>
-        <TeamIcon team={homeTeam} />
-        <span>{match.location}</span>
+      <CardContent className="h-1/2 flex pb-2">
+        <div className="w-2/3 flex flex-row justify-around items-start">
+          <TeamIcon team={awayTeam} />
+          <span className="pt-6">vs.</span>
+          <TeamIcon team={homeTeam} />
+        </div>
+        <span className="text-center text-balance place-self-center">{match.location}</span>
       </CardContent>
-      <CardFooter className="flex flex-col">
-        <span>Spread: {homeTeam.shortName} {match.odds.homeTeamSpread}, {awayTeam.shortName} {match.odds.awayTeamSpread}</span>
-        <span>ML: {homeTeam.shortName} {match.odds.homeTeamMoneyLine}, {awayTeam.shortName} {match.odds.awayTeamMoneyLine}</span>
+      <CardFooter className="flex justify-between py-2">
+        <span className="">
+          Spread: {homeTeam.shortName + " "} 
+          {match.odds.homeTeamSpread >= 0 ? "+" + match.odds.homeTeamSpread : match.odds.homeTeamSpread}, 
+          {" " + awayTeam.shortName + " "} 
+          {match.odds.awayTeamSpread >= 0 ? "+" + match.odds.awayTeamSpread : match.odds.awayTeamSpread}
+        </span>
+        <span>
+          ML: {homeTeam.shortName + " "} 
+          {match.odds.homeTeamMoneyLine >= 0 ? "+" + match.odds.homeTeamMoneyLine : match.odds.homeTeamMoneyLine}, 
+          {" " + awayTeam.shortName + " "} 
+          {match.odds.awayTeamMoneyLine >= 0 ? "+" + match.odds.awayTeamMoneyLine : match.odds.awayTeamMoneyLine}
+        </span>
       </CardFooter>
     </Card>
   );
