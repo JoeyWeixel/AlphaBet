@@ -5,7 +5,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import UpcomingMatchCard, { Match } from "./UpcomingMatchCard";
+import UpcomingMatchCard from "./UpcomingMatchCard";
+import { Match } from "@/types/Match";
 
 type UpcomingMatchesCarouselProps = {
   matches: Match[]
@@ -13,7 +14,7 @@ type UpcomingMatchesCarouselProps = {
 
 const UpcomingMatchesCarousel : React.FC<UpcomingMatchesCarouselProps> = ({ matches }) => {
   return (
-    <Carousel className="w-5/6 mx-auto mt-8"
+    <Carousel className="w-5/6 mx-auto"
       opts={{
       }}
     >

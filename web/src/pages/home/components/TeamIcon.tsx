@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Team } from "./UpcomingMatchCard";
+import { Team } from "@/types/Team";
 
 type TeamIconProps = {
   team: Team;

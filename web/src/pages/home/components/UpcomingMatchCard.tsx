@@ -7,28 +7,7 @@ import {
 } from "@/components/ui/card";
 import React from "react";
 import TeamIcon from "./TeamIcon";
-
-export type Match = {
-  date: Date;
-  homeTeam: Team;
-  awayTeam: Team;
-  league: string;
-  location: string;
-  odds: {
-    homeTeamMoneyLine: number;
-    awayTeamMoneyLine: number;
-    homeTeamSpread: number;
-    awayTeamSpread: number;
-  };
-
-};
-
-export type Team = {
-  name: string;
-  shortName: string;
-  logo: string;
-  rank?: number;
-};
+import { Match } from "@/types/Match";
 
 type UpcomingMatchCardProps = {
   match: Match
@@ -40,7 +19,7 @@ const UpcomingMatchCard : React.FC<UpcomingMatchCardProps> = ({ match }) => {
   let awayTeam = match.awayTeam;
   const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   return (
-    <Card className="lg:h-48 flex flex-col justify-between">
+    <Card className="lg:h-48 flex flex-col justify-between ">
       <CardHeader className="py-2">
         <CardTitle className="text-sm text-end">{dayNames[match.date.getDay()] + ", " + match.date.getMonth() + "/" + match.date.getDate() + "/" + match.date.getFullYear()}</CardTitle>
       </CardHeader>

@@ -10,6 +10,9 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
+				"bet-won": 'hsl(var(--bet-won))',
+				"bet-lost": 'var(--bet-lost)',
+				"bet-push": 'var(--bet-push)',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
