@@ -188,7 +188,7 @@ const Home: React.FC = () => {
       <Header />
       <span className="self-center my-4 text-xl">Upcoming Matches</span>
       <UpcomingMatchesCarousel matches={matches} />
-      <div className="w-full flex justify-around">
+      <div className="w-full flex justify-around flex-wrap">
         <RecentFriendResults bets={bets} />
         <Leaderboard records={records} />
       </div>

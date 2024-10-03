@@ -14,7 +14,7 @@ type UpcomingMatchesCarouselProps = {
 
 const UpcomingMatchesCarousel : React.FC<UpcomingMatchesCarouselProps> = ({ matches }) => {
   return (
-    <Carousel className="w-5/6 mx-auto"
+    <Carousel className="w-3/4 mx-auto"
       opts={{
       }}
     >
@@ -22,7 +22,7 @@ const UpcomingMatchesCarousel : React.FC<UpcomingMatchesCarouselProps> = ({ matc
         {matches.map((match) => (
           <CarouselItem 
             key={match.awayTeam.name + match.homeTeam.name + match.league + match.date}
-            className="basis-1/2"
+            className="basis-1/2 min-w-[330px] max-w-[500px]"
           >
             <UpcomingMatchCard match={match} />
           </CarouselItem>

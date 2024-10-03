@@ -19,7 +19,7 @@ const UpcomingMatchCard : React.FC<UpcomingMatchCardProps> = ({ match }) => {
   let awayTeam = match.awayTeam;
   const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   return (
-    <Card className="lg:h-48 flex flex-col justify-between ">
+    <Card className="lg:h-48 flex flex-col justify-between">
       <CardHeader className="py-2">
         <CardTitle className="text-sm text-end">{dayNames[match.date.getDay()] + ", " + match.date.getMonth() + "/" + match.date.getDate() + "/" + match.date.getFullYear()}</CardTitle>
       </CardHeader>
@@ -31,7 +31,7 @@ const UpcomingMatchCard : React.FC<UpcomingMatchCardProps> = ({ match }) => {
         </div>
         <span className="text-center text-balance place-self-center">{match.location}</span>
       </CardContent>
-      <CardFooter className="flex justify-between py-2">
+      <CardFooter className="flex justify-between py-2 flex-wrap">
         <span className="">
           Spread: {homeTeam.shortName + " "} 
           {match.odds.homeTeamSpread >= 0 ? "+" + match.odds.homeTeamSpread : match.odds.homeTeamSpread}, 

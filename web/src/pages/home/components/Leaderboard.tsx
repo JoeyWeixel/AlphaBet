@@ -10,7 +10,7 @@ type LeaderboardProps = {
 
 const Leaderboard : React.FC<LeaderboardProps> = ({ records }) => {
   return (
-    <ScrollArea className="border-2 border-primary-foreground w-5/12 rounded-sm h-90">
+    <ScrollArea className="min-w-[420px] border-2 border-primary-foreground w-5/12 rounded-sm h-90">
       <div className="flex justify-center text-lg py-2" >Leaderboards</div>
       <Separator className="w-11/12 mx-auto"/>
       <Tabs defaultValue="daily" className="py-2">
