@@ -10,11 +10,11 @@ const RecentFriendResult : React.FC<RecentFriendResultProps> = ({ bet }) => {
   const ringColor : string = (() => {
     switch (bet.status) {
       case "won":
-        return "ring-bet-won/[.75]";
+        return "outline-bet-won";
       case "lost":
-        return "ring-bet-lost";
+        return "outline-bet-lost";
       case "push":
-        return "ring-bet-push";
+        return "outline-bet-push";
       default:
         return "";
     }
@@ -39,7 +39,7 @@ const RecentFriendResult : React.FC<RecentFriendResultProps> = ({ bet }) => {
 
   return (
     <div className="flex justify-between items-center px-4 my-2 mx-auto h-24">
-      <Avatar className={`ring-4 ${ringColor}`}>
+      <Avatar className={`outline outline-2 ${ringColor} outline-offset-2`}>
         <AvatarImage src={bet.user.profilePictureUrl} />
         <AvatarFallback>{bet.user.name.slice(0,1)}</AvatarFallback>
       </Avatar>

@@ -5,6 +5,8 @@ import { Match } from "@/types/Match";
 import RecentFriendResults from "./components/RecentFriendResults";
 import { User } from "@/types/User";
 import { Bet } from "@/types/Bet";
+import { Record } from "@/types/Record";
+import Leaderboard from "./components/Leaderboard";
 
 // TEMPORARY VALUES
 let matches : Match[] = [
@@ -129,6 +131,57 @@ let bets : Bet[] = [
   }
 ]
 
+const records : Record[] = [
+  {
+    user: users[0],
+    wins: 3,
+    losses: 2,
+    pushes: 0,
+    amount: 100,
+    type: "Daily",
+  },
+  {
+    user: users[0],
+    wins: 5,
+    losses: 6,
+    pushes: 1,
+    amount: -10,
+    type: "Weekly",
+  },
+  {
+    user: users[0],
+    wins: 10,
+    losses: 6,
+    pushes: 2,
+    amount: 50,
+    type: "Monthly",
+  },
+  {
+    user: users[1],
+    wins: 1,
+    losses: 1,
+    pushes: 1,
+    amount: 0,
+    type: "Daily",
+  },
+  {
+    user: users[1],
+    wins: 3,
+    losses: 7,
+    pushes: 1,
+    amount: -50,
+    type: "Weekly",
+  },
+  {
+    user: users[1],
+    wins: 15,
+    losses: 10,
+    pushes: 1,
+    amount: 20,
+    type: "Monthly",
+  }
+]
+
 const Home: React.FC = () => {
   return (
     <div className="flex min-h-screen w-full flex-col gap-y-4 items-center flex-wrap">
@@ -137,6 +190,7 @@ const Home: React.FC = () => {
       <UpcomingMatchesCarousel matches={matches} />
       <div className="w-full flex justify-around">
         <RecentFriendResults bets={bets} />
+        <Leaderboard records={records} />
       </div>
     </div>
   );
