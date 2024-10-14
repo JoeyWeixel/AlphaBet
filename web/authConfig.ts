@@ -1,45 +1,25 @@
-import { LogLevel } from "@azure/msal-browser";
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
 
 /**
  * Configuration object to be passed to MSAL instance on creation.
+ * For a full list of MSAL.js configuration parameters, visit:
+ * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/configuration.md
  */
 export const msalConfig = {
     auth: {
-        clientId: "8d2c2566-02a7-4a58-a730-c885f6609f4a",
-        authority:"https://login.microsoftonline.com/943324ec-ed33-4f53-b4cf-0f1ba2035c48",
-        redirectUri: `http://localhost:5173/auth`,
-        postLogoutRedirectUri: "/",
-        navigateToLoginRequestUrl: false,
+        clientId: 'cda32693-0e7b-4086-a808-982ae40057a6', // This is the ONLY mandatory field that you need to supply.
+        authority: 'https://alphabetorg.b2clogin.com/alphabetorg.onmicrosoft.com/b2c_1_signup_signin', // Choose SUSI as your default authority.
+        knownAuthorities: ['https://alphabetorg.b2clogin.com'], // Mark your B2C tenant's domain as trusted.
+        redirectUri: `http://localhost:5173/auth`, // You must register this URI on Azure Portal/App Registration. Defaults to window.location.origin
+        postLogoutRedirectUri: 'http://localhost:5173/', // Indicates the page to navigate after logout.
+        navigateToLoginRequestUrl: false, // If "true", will navigate back to the original request location before processing the auth code response.
     },
     cache: {
-        cacheLocation: "localStorage", // "sessionStorage" or"localStorage"
-        storeAuthStateInCookie: false,
-    },
-    system: {
-        loggerOptions: {
-            loggerCallback: (level: LogLevel, message: string, containsPii: boolean) => {
-                if (containsPii) {
-                    return;
-                }
-                switch (level) {
-                    case LogLevel.Error:
-                        console.error(message);
-                        return;
-                    case LogLevel.Info:
-                        console.info(message);
-                        return;
-                    case LogLevel.Verbose:
-                        console.debug(message);
-                        return;
-                    case LogLevel.Warning:
-                        console.warn(message);
-                        return;
-                    default:
-                        return;
-                }
-            },
-        },
-        allowNativeBroker: false,
+        cacheLocation: 'localStorage', // Configures cache location. "sessionStorage" is more secure, but "localStorage" gives you SSO between tabs.
+        storeAuthStateInCookie: false, // Set this to "true" if you are having issues on IE11 or Edge
     },
 };
 

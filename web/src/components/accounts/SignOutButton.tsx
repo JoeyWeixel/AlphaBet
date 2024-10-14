@@ -6,10 +6,7 @@ const SignOutButton : React.FC = () => {
     const { instance } = useMsal();
 
     const handleSignOut = () => {
-        instance.logoutRedirect({
-            account: instance.getActiveAccount(),
-            postLogoutRedirectUri: "/",
-        }).then();
+        instance.loginRedirect();
     }
 
     return (

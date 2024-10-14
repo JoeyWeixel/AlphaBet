@@ -5,7 +5,7 @@ import {
     EventMessage,
     AuthenticationResult,
 } from "@azure/msal-browser";
-import { msalConfig } from "@/../authConfig.ts";
+import { msalConfig } from "../authConfig.ts";
 import {AuthenticatedTemplate, MsalProvider, UnauthenticatedTemplate} from "@azure/msal-react";
 import {RouterProvider} from "react-router-dom";
 import UnauthenticatedRouter from "@/components/navigation/Routing/UnauthenticatedRouter.tsx";
