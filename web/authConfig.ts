@@ -13,7 +13,7 @@ export const msalConfig = {
         clientId: 'cda32693-0e7b-4086-a808-982ae40057a6', // This is the ONLY mandatory field that you need to supply.
         authority: 'https://alphabetorg.b2clogin.com/alphabetorg.onmicrosoft.com/b2c_1_signup_signin', // Choose SUSI as your default authority.
         knownAuthorities: ['https://alphabetorg.b2clogin.com'], // Mark your B2C tenant's domain as trusted.
-        redirectUri: `http://localhost:5173/auth`, // You must register this URI on Azure Portal/App Registration. Defaults to window.location.origin
+        redirectUri: `${import.meta.env.VITE_WEB_ADDRESS}/auth`, // You must register this URI on Azure Portal/App Registration. Defaults to window.location.origin
         postLogoutRedirectUri: 'http://localhost:5173/', // Indicates the page to navigate after logout.
         navigateToLoginRequestUrl: false, // If "true", will navigate back to the original request location before processing the auth code response.
     },
