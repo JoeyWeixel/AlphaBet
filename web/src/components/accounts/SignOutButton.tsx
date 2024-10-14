@@ -5,14 +5,17 @@ import React from "react";
 const SignOutButton : React.FC = () => {
     const { instance } = useMsal();
 
-    const handleSignIn = () => {
-        instance.logout().then();
+    const handleSignOut = () => {
+        instance.logoutRedirect({
+            account: instance.getActiveAccount(),
+            postLogoutRedirectUri: "/",
+        }).then();
     }
 
     return (
         <Button
             variant="default"
-            onClick={() => handleSignIn()}
+            onClick={() => handleSignOut()}
         >
             Sign Out
         </Button>
