@@ -30,7 +30,7 @@ export const msalConfig = {
  * By default, MSAL.js will add OIDC scopes (openid, profile, email) to any login request.
  */
 export const loginRequest : RedirectRequest = {
-    scopes: ["Files.Read"],
+    scopes: [],
     redirectUri: `${import.meta.env.VITE_WEB_ADDRESS}/auth`,
 };
 
