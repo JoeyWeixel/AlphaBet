@@ -1,12 +1,15 @@
 import {Button} from "@/components/ui/button.tsx";
 import {useMsal} from "@azure/msal-react";
 import React from "react";
+import {loginRequest} from "../../../authConfig.ts";
 
 const SignInButton : React.FC = () => {
     const { instance } = useMsal();
 
     const handleSignIn = () => {
-        instance.loginRedirect();
+        instance.loginRedirect({
+            ...loginRequest
+        });
     }
 
     return (
