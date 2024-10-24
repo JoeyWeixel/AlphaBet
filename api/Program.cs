@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using api.Domain;
+using api.Endpoints.Friendship;
+using api.Endpoints.User;
 using Microsoft.Identity.Web;
 
 namespace api
@@ -71,11 +73,11 @@ namespace api
             if (builder.Environment.IsDevelopment())
             {
                 builder.Configuration.AddEnvironmentVariables().AddJsonFile("appsettings.Development.json");
-                connection = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
+                connection = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTION_STRING");
             }
             else
             {
-                connection = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
+                connection = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTION_STRING");
             }
 
             builder.Services.AddDbContext<AlphabetDbContext>(options =>
@@ -86,7 +88,8 @@ namespace api
 
         private static void AddServices(WebApplicationBuilder builder)
         {
-
+            builder.Services.AddScoped<UserServices>();
+            builder.Services.AddScoped<FriendshipServices>();
         }
 
         private static void AddControllers(WebApplicationBuilder builder)

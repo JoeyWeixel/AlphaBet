@@ -2,10 +2,12 @@ namespace api.Domain;
 
 public class Friendship
 {
-    public Guid User1_Id { get; set; }
-    public User User1 { get; set; }
-    public Guid User2_Id { get; set; }
-    public User User2 { get; set; }
+    public required Guid RequesterId { get; init; }
+    public required ApplicationUser Requester { get; init; }
+    public required Guid ReceiverId { get; init; }
+    public required ApplicationUser Receiver { get; init; }
     
-    public bool IsAccepted { get; set; }
+    public required bool IsAccepted { get; set; }
+    public required DateTime RequestedAt { get; init; }
+    public DateTime? AcceptedAt { get; set; }
 }
