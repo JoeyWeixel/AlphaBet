@@ -19,5 +19,8 @@ public class FriendshipConfiguration : IEntityTypeConfiguration<Friendship>
             .IsRequired();
 
         builder.Property(f => f.AcceptedAt);
+
+        builder.Property(f => f.RequesterId)
+            .IsRequired();
     }   
 }

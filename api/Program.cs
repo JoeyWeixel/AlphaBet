@@ -126,7 +126,7 @@ namespace api
             builder.Services.AddTransient(sp =>
             {
                 var accessor = sp.GetRequiredService<IHttpContextAccessor>();
-                var user = accessor?.HttpContext?.User;
+                var user = accessor.HttpContext?.User;
                 return user ?? throw new InvalidOperationException("User not found");
             });
         }

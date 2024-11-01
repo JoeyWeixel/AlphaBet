@@ -11,7 +11,7 @@ public static class FriendshipLogging
     {
         _friendshipNotFound = LoggerMessage.Define<Guid, Guid>(
             LogLevel.Error,
-            new EventId(10001, "FriendshipNotFound"),
+            new EventId(20000, "FriendshipNotFound"),
             "Friendship not found: Requester Id {userId}, Receiver Id {friendId}"
         );
     }

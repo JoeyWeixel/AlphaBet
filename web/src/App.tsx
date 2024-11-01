@@ -10,6 +10,7 @@ import {AuthenticatedTemplate, MsalProvider, UnauthenticatedTemplate} from "@azu
 import {RouterProvider} from "react-router-dom";
 import UnauthenticatedRouter from "@/components/navigation/Routing/UnauthenticatedRouter.tsx";
 import AuthenticatedRouter from "@/components/navigation/Routing/AuthenticatedRouter.tsx";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 const msalInstance = new PublicClientApplication(msalConfig);
 
@@ -38,16 +39,20 @@ msalInstance.addEventCallback((event: EventMessage) => {
 //enable account storage event
 msalInstance.enableAccountStorageEvents();
 
+const queryClient = new QueryClient();
+
 function App() {
     return (
         <MsalProvider instance={msalInstance}>
             <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
-                <UnauthenticatedTemplate>
-                    <RouterProvider router={UnauthenticatedRouter} />
-                </UnauthenticatedTemplate>
-                <AuthenticatedTemplate>
-                    <RouterProvider router={AuthenticatedRouter} />
-                </AuthenticatedTemplate>
+                <QueryClientProvider client={queryClient}>
+                    <UnauthenticatedTemplate>
+                        <RouterProvider router={UnauthenticatedRouter} />
+                    </UnauthenticatedTemplate>
+                    <AuthenticatedTemplate>
+                        <RouterProvider router={AuthenticatedRouter} />
+                    </AuthenticatedTemplate>
+                </QueryClientProvider>
             </ThemeProvider>
         </ MsalProvider>
     )

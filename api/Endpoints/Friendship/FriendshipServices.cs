@@ -3,6 +3,8 @@ using api.Data;
 using api.Endpoints.User;
 using api.Logging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Graph;
+using Microsoft.Identity.Web;
 
 namespace api.Endpoints.Friendship;
 
@@ -26,8 +28,10 @@ public class FriendshipServices(
     
     public async Task AddFriend(Guid requesterId, Guid receiverId)
     {
+        if (requesterId != new Guid(Principal.GetObjectId() ?? throw Logger.OidNotFound())) throw Logger.UserUnauthorized(requesterId);
+        
         var friendship = await Db.Friendships.FirstOrDefaultAsync(f => f.RequesterId == requesterId && f.ReceiverId == receiverId);
-        if (friendship != null)
+        if (friendship != null && friendship.RequesterId == requesterId)
         {
             friendship.IsAccepted = true;
             friendship.AcceptedAt = DateTime.Now;

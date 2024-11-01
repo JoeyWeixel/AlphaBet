@@ -10,12 +10,12 @@ namespace api.Endpoints.User;
 [Route("/users")]
 public class UserController(UserServices service) : BaseApiController
 {
-    [HttpGet ("/{id}")]
-    public async Task<IActionResult> GetUser(Guid id)
+    [HttpGet ("/me")]
+    public async Task<IActionResult> GetMe()
     {
         try
         {
-            var user = await service.GetUserById(id);
+            var user = await service.GetMe();
             var response = new UserResponse
             {
                 FirstName = user.FirstName,

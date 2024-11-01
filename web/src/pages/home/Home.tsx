@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import React from "react";
+import React, {useEffect} from "react";
 import UpcomingMatchesCarousel from "./components/UpcomingMatchesCarousel";
 import { Match } from "@/types/Match";
 import RecentFriendResults from "./components/RecentFriendResults";
@@ -7,6 +7,7 @@ import { User } from "@/types/User";
 import { Bet } from "@/types/Bet";
 import { Record } from "@/types/Record";
 import Leaderboard from "./components/Leaderboard";
+import {useMsal} from "@azure/msal-react";
 
 // TEMPORARY VALUES
 let matches : Match[] = [
@@ -183,6 +184,21 @@ const records : Record[] = [
 ]
 
 const Home: React.FC = () => {
+  const { instance } = useMsal();
+
+  const user = instance.getActiveAccount();
+
+  if (user) {
+    const accessTokenRequest = {
+      scopes: ["https://alphabetorg.onmicrosoft.com/api/User.Read", "https://alphabetorg.onmicrosoft.com/api/User.Write"],
+      account: user,
+    };
+    console.log(user.idToken)
+    useEffect(() => {
+      instance.acquireTokenSilent(accessTokenRequest).then((response) => console.log(response));
+    }, [instance]);
+  }
+
   return (
     <div className="flex min-h-screen w-full flex-col gap-y-4 items-center flex-wrap">
       <Header />

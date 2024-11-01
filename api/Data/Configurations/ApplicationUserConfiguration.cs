@@ -24,17 +24,17 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
             .IsRequired()
             .HasMaxLength(32);
         builder.Property(u => u.Email)
-            .IsRequired()
+            .IsRequired(false)
             .HasMaxLength(320);
 
         builder.HasMany(u => u.RequestedFriends)
             .WithOne(f => f.Requester)
             .HasForeignKey(f => f.RequesterId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(u => u.ReceivedFriends)
             .WithOne(f => f.Receiver)
             .HasForeignKey(f => f.ReceiverId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }
