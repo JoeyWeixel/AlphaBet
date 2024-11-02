@@ -13,13 +13,14 @@ const useHttp = () => {
                 scopes: ["https://alphabetorg.onmicrosoft.com/api/User.Read", "https://alphabetorg.onmicrosoft.com/api/User.Write"],
                 account: user,
             };
-            return instance.acquireTokenSilent(accessTokenRequest);
+            const authResult = await instance.acquireTokenSilent(accessTokenRequest);
+            return authResult.accessToken;
         }
         return null;
     }
 
     const getOne = async <T>(relativeUri: string): Promise<T> => {
-        const token = acquireToken();
+        const token = await acquireToken();
         const response = await axios.get<T>(`${apiUri}/${relativeUri}`, {
             headers: {
                 Authorization: "Bearer " + token,
@@ -29,7 +30,7 @@ const useHttp = () => {
     }
 
     const getMany = async <T>(relativeUri: string): Promise<T[]> => {
-        const token = acquireToken();
+        const token = await acquireToken();
 
         const response = await axios.get<T[]>(`${apiUri}/${relativeUri}`, {
             headers: {
@@ -40,7 +41,7 @@ const useHttp = () => {
     }
 
     const post = async <T, S>(rq: S, relativeUri: string): Promise<T> => {
-        const token = acquireToken();
+        const token = await acquireToken();
         const response = await axios.post<T>(`${apiUri}/${relativeUri}`, rq, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -50,7 +51,7 @@ const useHttp = () => {
     }
 
     const patch = async <T, S>(rq: S, relativeUri: string): Promise<T> => {
-        const token = acquireToken();
+        const token = await acquireToken();
         const response = await axios.patch<T>(`${apiUri}/${relativeUri}`, rq, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -60,7 +61,7 @@ const useHttp = () => {
     }
 
     const put = async <T, S>(rq: S, relativeUri: string): Promise<T> => {
-        const token = acquireToken();
+        const token = await acquireToken();
         const response = await axios.put<T>(`${apiUri}/${relativeUri}`, rq, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -70,7 +71,7 @@ const useHttp = () => {
     }
 
     const deleteOne = async <T>(relativeUri: string): Promise<T> => {
-        const token = acquireToken();
+        const token = await acquireToken();
         const response = await axios.delete<T>(`${apiUri}/${relativeUri}`, {
             headers: {
                 Authorization: `Bearer ${token}`,

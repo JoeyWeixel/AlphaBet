@@ -103,7 +103,7 @@ namespace api
             {
                 options.AddPolicy("AllowAll", policy =>
                     policy
-                    .WithOrigins("http://localhost:5173")
+                    .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader());
                 options.AddPolicy("AllowSpecific", policy =>

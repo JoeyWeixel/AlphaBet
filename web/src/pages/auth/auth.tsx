@@ -1,25 +1,30 @@
-// import {useMsal} from "@azure/msal-react";
-// import {useEffect} from "react";
-// import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {useMsal} from "@azure/msal-react";
+import {useQuery} from "@tanstack/react-query";
+import useUser, {User} from "@/hooks/useUser.ts";
+import {useNavigate} from "react-router-dom";
+import {useEffect} from "react";
 
 const Auth : React.FC = () => {
-    // const { instance } = useMsal();
+    const { instance } = useMsal();
+    const { getMe } = useUser();
+    const navigate = useNavigate()
 
-    // useEffect(() => {
-    //     let user = instance.getActiveAccount();
-    //     if (user) {
-    //         const accessTokenRequest = {
-    //             scopes: ["https://alphabetorg.onmicrosoft.com/api/User.Read", "https://alphabetorg.onmicrosoft.com/api/User.Write"],
-    //             account: user,
-    //         };
-    //         instance.acquireTokenSilent(accessTokenRequest)
-    //             .then((response) => console.log(response));
-    //     }
-    // }, [instance]);
+    const { error:  userError,  isLoading: loading} = useQuery<User>({
+        queryKey: ["get", "me"],
+        queryFn: getMe,
+        enabled: instance.getActiveAccount() != null,
+    })
+
+    useEffect(() => {
+        if (!loading && !userError) {
+            navigate("/");
+        }
+    }, [loading, userError, navigate]);
 
     return (
         <div>
             <h1>Auth</h1>
+            {loading && <p>Loading...</p>}
         </div>
     );
 }

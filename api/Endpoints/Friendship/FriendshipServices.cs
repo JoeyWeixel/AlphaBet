@@ -3,7 +3,6 @@ using api.Data;
 using api.Endpoints.User;
 using api.Logging;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Graph;
 using Microsoft.Identity.Web;
 
 namespace api.Endpoints.Friendship;

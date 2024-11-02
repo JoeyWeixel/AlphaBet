@@ -10,7 +10,7 @@ namespace api.Endpoints.User;
 [Route("/users")]
 public class UserController(UserServices service) : BaseApiController
 {
-    [HttpGet ("/me")]
+    [HttpGet ("me")]
     public async Task<IActionResult> GetMe()
     {
         try
@@ -20,9 +20,10 @@ public class UserController(UserServices service) : BaseApiController
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Username = user.Username
+                Username = user.Username,
+                Email = user.Email
             };
-            return Ok(user);
+            return Ok(response);
         }
         catch (Exception ex)
         {
