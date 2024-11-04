@@ -108,7 +108,8 @@ namespace api
                     .AllowAnyHeader());
                 options.AddPolicy("AllowSpecific", policy =>
                     policy
-                    .WithOrigins("https://joinalphabet.com")
+                    .WithOrigins("https://www.joinalphabet.com",
+                        "https://joinalphabet.com")
                     .AllowAnyMethod()
                     .AllowAnyHeader());
             });
