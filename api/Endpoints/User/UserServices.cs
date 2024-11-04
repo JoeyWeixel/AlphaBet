@@ -56,6 +56,5 @@ public class UserServices(
         await Db.Users.AddAsync(newUser);
         await Db.SaveChangesAsync();
         return newUser;
-
     }
 }

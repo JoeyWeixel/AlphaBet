@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using api.Data;
+using api.Domain;
 using api.Endpoints.User;
 using api.Logging;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,7 @@ public class FriendshipServices(
     IConfiguration config)
     : BaseService(db, logger, principal, config)
 {
-    public async Task<ICollection<Domain.ApplicationUser>> GetFriendships(Guid id)
+    public async Task<ICollection<ApplicationUser>> GetFriendships(Guid id)
     {
         var friendships = await Db.Friendships
             .Where(f => f.RequesterId == id || f.ReceiverId == id && f.IsAccepted)
@@ -54,5 +55,18 @@ public class FriendshipServices(
             await Db.Friendships.AddAsync(friendship);
         }
         await Db.SaveChangesAsync();
+    }
+    
+    public async Task<ICollection<ApplicationUser>> SearchForFriends(string query)
+    {
+        if (query.Length < 3)
+        {
+            throw Logger.QueryTooShort(query);
+            return null;
+        }
+        var friends = await Db.Users
+            .Where(u => EF.Functions.Contains(u.Username, query))
+            .ToListAsync();
+        return friends;
     }
 }

@@ -16,7 +16,12 @@ public class FriendshipController(FriendshipServices service) : BaseApiControlle
         try
         {
             var friends = await service.GetFriendships(id);
-            return Ok(friends);
+            var response = friends.Select(f => new FriendshipResponse
+            {
+                UserId = f.UserId,
+                Username = f.Username
+            });
+            return Ok(response);
         }
         catch (Exception ex)
         {
@@ -31,6 +36,25 @@ public class FriendshipController(FriendshipServices service) : BaseApiControlle
         {
             await service.AddFriend(req.RequesterId, req.ReceiverId);
             return Ok();
+        }
+        catch (Exception ex)
+        {
+            return HandleException(ex);
+        }
+    }
+    
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchForFriends([FromQuery] string query)
+    {
+        try
+        {
+            var friends = await service.SearchForFriends(query);
+            var response = friends.Select(f => new FriendshipResponse
+            {
+                UserId = f.UserId,
+                Username = f.Username
+            });
+            return Ok(response);
         }
         catch (Exception ex)
         {
