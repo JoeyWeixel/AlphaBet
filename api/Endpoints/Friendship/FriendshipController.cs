@@ -10,16 +10,35 @@ namespace api.Endpoints.Friendship;
 [Route("/friends")]
 public class FriendshipController(FriendshipServices service) : BaseApiController
 {
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetFriends(Guid id)
+    [HttpGet("me")]
+    public async Task<IActionResult> GetMyFriends()
     {
         try
         {
-            var friends = await service.GetFriendships(id);
+            var friends = await service.GetMyFriendships();
             var response = friends.Select(f => new FriendshipResponse
             {
                 UserId = f.UserId,
                 Username = f.Username
+            });
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return HandleException(ex);
+        }
+    }
+    
+    [HttpGet("me/requests")]
+    public async Task<IActionResult> GetMyFriendRequests()
+    {
+        try
+        {
+            var requests = await service.GetMyFriendRequests();
+            var response = requests.Select(r => new FriendshipResponse
+            {
+                UserId = r.UserId,
+                Username = r.Username
             });
             return Ok(response);
         }

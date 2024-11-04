@@ -15,15 +15,37 @@ public class FriendshipServices(
     IConfiguration config)
     : BaseService(db, logger, principal, config)
 {
+    public async Task<ICollection<ApplicationUser>> GetMyFriendships()
+    {
+        var id = Principal.GetObjectId() ?? throw Logger.OidNotFound();
+        return await GetFriendships(new Guid(id));
+    }
+    
     public async Task<ICollection<ApplicationUser>> GetFriendships(Guid id)
     {
         var friendships = await Db.Friendships
-            .Where(f => f.RequesterId == id || f.ReceiverId == id && f.IsAccepted)
+            .Where(f => (f.RequesterId == id || f.ReceiverId == id) && f.IsAccepted)
             .Include(f => f.Requester)
             .Include(f => f.Receiver)
             .Select(f => f.RequesterId == id ? f.Receiver : f.Requester) // Returns only the user object of the friend
             .ToListAsync();
         return friendships;
+    }
+    
+    public async Task<ICollection<ApplicationUser>> GetMyFriendRequests()
+    {
+        var id = Principal.GetObjectId() ?? throw Logger.OidNotFound();
+        return await GetFriendRequests(new Guid(id));
+    }
+    
+    public async Task<ICollection<ApplicationUser>> GetFriendRequests(Guid id)
+    {
+        var requests = await Db.Friendships
+            .Where(f => f.ReceiverId == id && !f.IsAccepted)
+            .Include(f => f.Requester)
+            .Select(f => f.Requester)
+            .ToListAsync();
+        return requests;
     }
     
     public async Task AddFriend(Guid requesterId, Guid receiverId)
