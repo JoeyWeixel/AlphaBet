@@ -48,35 +48,46 @@ public class FriendshipServices(
         return requests;
     }
     
-    public async Task AddFriend(Guid requesterId, Guid receiverId)
+    public async Task<Domain.Friendship> AddFriend(Guid targetId)
     {
-        if (requesterId != new Guid(Principal.GetObjectId() ?? throw Logger.OidNotFound())) throw Logger.UserUnauthorized(requesterId);
+        var userId = new Guid(Principal.GetObjectId() ?? throw Logger.OidNotFound());
         
-        var friendship = await Db.Friendships.FirstOrDefaultAsync(f => f.RequesterId == requesterId && f.ReceiverId == receiverId);
-        if (friendship != null && friendship.RequesterId == requesterId)
+        var friendship = await Db.Friendships.FirstOrDefaultAsync(f => 
+            (f.RequesterId == targetId || f.RequesterId == userId) 
+            && 
+            (f.ReceiverId == targetId || f.ReceiverId == userId));
+        switch (friendship)
         {
-            friendship.IsAccepted = true;
-            friendship.AcceptedAt = DateTime.Now;
-            Db.Friendships.Update(friendship);
-        }
-        else
-        {
-            var requester = await Db.Users
-                .FirstOrDefaultAsync(u => u.UserId == requesterId) ?? throw Logger.UserNotFound(requesterId);
-            var receiver = await Db.Users
-                .FirstOrDefaultAsync(u => u.UserId == receiverId) ?? throw Logger.UserNotFound(receiverId);
-            friendship = new Domain.Friendship
+            case { IsAccepted: true }:
+                return friendship;
+            case { IsAccepted: false } when friendship.RequesterId == userId:
+                break;
+            case { IsAccepted: false } when friendship.ReceiverId == userId:
+                friendship.IsAccepted = true;
+                friendship.AcceptedAt = DateTime.Now;
+                Db.Friendships.Update(friendship);
+                break;
+            case null:
             {
-                Requester = requester,
-                RequesterId = requesterId,
-                Receiver = receiver,
-                ReceiverId = receiverId,
-                RequestedAt = DateTime.Now,
-                IsAccepted = false
-            };
-            await Db.Friendships.AddAsync(friendship);
+                var requester = await Db.Users
+                    .FirstOrDefaultAsync(u => u.UserId == userId) ?? throw Logger.UserNotFound(userId);
+                var receiver = await Db.Users
+                    .FirstOrDefaultAsync(u => u.UserId == targetId) ?? throw Logger.UserNotFound(targetId);
+                friendship = new Domain.Friendship
+                {
+                    Requester = requester,
+                    RequesterId = userId,
+                    Receiver = receiver,
+                    ReceiverId = targetId,
+                    RequestedAt = DateTime.Now,
+                    IsAccepted = false
+                };
+                await Db.Friendships.AddAsync(friendship);
+                break;
+            }
         }
         await Db.SaveChangesAsync();
+        return friendship;
     }
     
     public async Task<ICollection<ApplicationUser>> SearchForFriends(string query)
@@ -88,6 +99,7 @@ public class FriendshipServices(
         }
         var friends = await Db.Users
             .Where(u => EF.Functions.Contains(u.Username, query))
+            .Take(20)
             .ToListAsync();
         return friends;
     }

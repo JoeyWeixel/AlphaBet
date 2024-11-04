@@ -1,25 +1,26 @@
 import useHttp from "@/hooks/useHttp.ts";
 
 export type FriendRequest = {
-    requesterId: string;
-    receiverId: string;
+    targetId: string;
 }
 
-export type FriendResponse = {
-    id: string;
-    userName: string;
+export type Friend = {
+    userId: string;
+    username: string;
 }
 
 const useFriends = () => {
     const { post, getMany } = useHttp();
 
-    const addFriend = async (req : FriendRequest) => post<FriendResponse, FriendRequest>(req, `friends/`)
+    const addFriend = async (req : FriendRequest) => post<Friend, FriendRequest>(req, `friends/`)
 
-    const getMyFriends = async () => getMany<FriendResponse>(`friends/me`);
+    const getMyFriends = async () => getMany<Friend>(`friends/me`);
 
-    const searchFriends = async (search: string) => getMany<FriendResponse>(`friends/search?query=${search}`);
+    const searchFriends = async (search: string) => getMany<Friend>(`friends/search?query=${search}`);
 
-    return { addFriend, getMyFriends, searchFriends }
+    const getMyFriendRequests = async () => getMany<Friend>(`friends/me/requests`);
+
+    return { addFriend, getMyFriends, searchFriends, getMyFriendRequests }
 }
 
 export default useFriends;

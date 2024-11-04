@@ -53,8 +53,16 @@ public class FriendshipController(FriendshipServices service) : BaseApiControlle
     {
         try
         {
-            await service.AddFriend(req.RequesterId, req.ReceiverId);
-            return Ok();
+            var targetGuid = new Guid(req.TargetId);
+            var friendship = await service.AddFriend(targetGuid);
+            var response = new FriendshipResponse
+            {
+                UserId = friendship.RequesterId == targetGuid ? friendship.RequesterId : friendship.ReceiverId,
+                Username = friendship.RequesterId == targetGuid
+                    ? friendship.Requester.Username
+                    : friendship.Receiver.Username
+            };
+            return Ok(response);
         }
         catch (Exception ex)
         {
